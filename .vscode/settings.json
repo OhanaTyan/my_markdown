@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "cstdlib": "cpp",
+        "istream": "cpp",
+        "iosfwd": "cpp",
+        "string": "cpp"
+    }
+}
