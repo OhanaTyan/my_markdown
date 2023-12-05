@@ -1,0 +1,233 @@
+= SYNTAX =
+This document introduce the syntax of my_markdown. For convinence of reading, <code>%</code> is used to show invisible space.
+
+Title with <code>#</code> means this function have been actualized, and without <code>#</code> means not actualized.
+<pre>
+<nowiki>
+== #function_actualized ==
+== function_not_actualized ==
+</nowiki>
+</pre>
+
+=== SOME TECHNICAL ===
+
+spac: space. the char you put in when you push the space bar on your computer.
+indent: a tab, two spac or four spac.
+char: character. you can also regard is as the <code>char</code> type in language C.
+
+== TITLE ==
+There are two type of title in markdown<ref>https://www.runoob.com/markdown/md-title.html</ref>. But 
+
+the first type
+<pre>
+This is a h1 title in markdown
+==================
+This is a h2 title in markdown
+------------------
+</pre>
+
+the second type
+<pre>
+# h1 title
+## h2 title
+### h3 title
+#### h4 title
+</pre>
+
+But in my_markdown, only the second type is supported. Parser will ignore the spac after <code>#</code>, which means, the two example below are equvalent.
+
+<pre>
+## h2
+##h2
+</pre>
+
+== PARAGRAPH AND SECTION ==
+The paragraph and section of my_markdown is the same as markdown.
+<pre>
+I'm the first paragraph of the first section
+I'm the second paragraph of the first section
+
+I'm the first paragraph of the second section
+I'm the second paragraph of the second section
+</pre>
+<pre>
+I am the first section.
+
+I am the second section. 
+</pre>
+
+<pre>
+I am the first paragraph
+%
+I am the third paragraph. The second paragraph is spac only. 
+</pre>
+
+=== DIVIDER LINE ===
+Only this type of divider line is supported.
+<pre>
+---
+---This is a divider line
+---Whatever here is written,
+---the result of the 4 line is same.
+</pre>
+The prefix of the divider line is three bash <code>---</code>, and the char after the prefix can be anything.
+
+=== STYLE ===
+Only below is supported.
+<pre>
+*斜体文本*
+'''粗体文本'''
+*这里是斜体'''这里既是斜体也是粗体'''这里是斜体*
+'''这里是粗体*这里既是粗体也是斜体*这里是粗体'''
+*'''这里既是粗体也是斜体'''*
+'''*这里既是粗体也是斜体*'''
+</pre>
+下面是错误示例，这种示例会报错
+<pre>
+*这里是斜体文本'''这里的文本既是粗体也是斜体*这里是粗体文本'''
+<pre>
+需要注意，字体标记不支持换行。下面的两种表示都会报错
+<pre>
+'''文本1
+文本2'''文本3
+</pre>
+显示效果如下
+<pre>
+黑体文本1
+普通文本2 黑体文本3
+</pre>
+=== 删除线 ===
+使用下面这种方法
+<pre>
+~~这里是被删除线划掉的文本~~
+</pre>
+
+=== 脚注 ===
+还没打算做
+
+=== 转义 ===
+<pre>
+\*这里不会被显示为斜体\*
+\\
+</pre>
+显示效果如下
+<pre>
+*这里不会被显示为斜体
+\
+</pre>
+
+== 列表 ==
+<!--仅支持用加号和减号作为列表的开头-->
+<!-- 因为如果星号可以支持好几个功能的话，有些难做，所以懒得做了 -->
+可以使用星号、加号和减号作为列表的开头（前缀）
+<pre>
+* 第一个列表的第一项
+*第二项，星号后面不加空格也可以
+* 第三项，加空格和不加空格效果相同
+- 第四项，星号和减号可以混用
+
++ 第二个列表第一项
++第二项
+</pre>
+以星号和减号作为列表开头的列表是无序列表，以加号作为开头的是有序列表
+
+
+但多级列表支持用星号或加号开头。与传统markdown不同的是，多级列表中相邻的两个型号之间不加星号
+<pre>
+* 无序一级列表
+** 无序二级列表
+**+ 有序三级列表
+**+ 有序三级列表
+* * 错误的
+</pre>
+
+列表是无序还是有序仅由同等级列表的第一项的前缀决定
+<pre>
+* 这是一个无序列表
++ 这是这个无序列表的第二项
++ 即使这一项的前缀是加号
++ 但还是会被处理为无序列表
+*+ 这是这个无序列表第四项的子列表第一个子项
+*+ 这个子列表是一个有序列表
+</pre>
+
+
+== 区块 ==
+区块有两种，第一种是markdown风格，在段落开头使用<code>></code>大于号，表示缩进效果
+<pre>
+> 第一层缩进
+>> 第二层缩进
+>>> 第三层缩进
+> > > 错误写法
+</pre>
+需要注意，原版markdown中多层缩进中两个相邻的大于号之间需要加一个空格，而在my_markdown中不应该加空格
+markdown风格中，最前面连续的大于号序列后面是否加空格会影响页面效果，如下
+<pre>
+> 1_默认展开
+>> 内容1
+>2_默认不展开
+>> 内容2
+</pre>
+
+第二种是萌百风格，一个半角冒号<code>:</code>表示缩进
+<pre>
+: 第一层缩进
+:: 第二层缩进
+::: 第三层缩进
+</pre>
+
+== 代码与代码块 ==
+使用反引号<code>``</code>可以把代码块括起来
+<pre>
+在C语言中，`printf()`函数是一个常用的函数
+</pre>
+可以用下面的方法创建一个代码块。暂时还不支持代码块高亮
+<pre>
+<nowiki>
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+	printf("hello world\n");
+	fflush(stdout);		// 如果在一些设备上没有打印出来字符串则加上这句
+	getchar();			// 如果在一些设备上闪退则加上这句
+	return 0;
+}
+```写在这里的内容会被忽略
+</nowiki>
+</pre>
+
+== 超链接 ==
+下面的方式均可以创建超链接
+<pre>
+[链接地址]
+[[链接地址]]
+[链接地址 | 链接名称]
+[[链接地址 | 链接名称]]
+</pre>
+需要注意，my_markdown不支持这种语法
+<pre>
+<链接地址>
+[链接名称](链接地址)
+</pre>
+并且管道符号左右必须都有一个空格
+
+== 图片 ==
+不打算做。未来可能打算做成像萌百的形式
+
+== regex公式 ==
+不打算做
+
+== 表格 ==
+不打算做
+
+== 模板 ==
+可以像使用萌百的模板一样调用模板
+
+
+
+
+
+
+
